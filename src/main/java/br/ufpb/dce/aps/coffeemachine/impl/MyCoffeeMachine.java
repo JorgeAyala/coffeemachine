@@ -12,19 +12,16 @@ import br.ufpb.dce.aps.coffeemachine.ComponentsFactory;
 public class MyCoffeeMachine implements CoffeeMachine{
 
 	
-	
+	MyCoffeeMachine coffee;
 	
 		
 	public MyCoffeeMachine(ComponentsFactory factory){
 		
-		verify(teste).createFacade(factory);
+		verify(coffee).display().info("Teste passando");
 		
-		//verify(teste,atLeastOnce()).createFacade(factory);
-		
-				
 	}
 	
-	MyCoffeeMachine teste;
+	
 	
 	private CoffeeMachine createFacade(ComponentsFactory factory){
 		
