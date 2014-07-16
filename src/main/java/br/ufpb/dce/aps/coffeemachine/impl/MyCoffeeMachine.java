@@ -1,38 +1,38 @@
 package br.ufpb.dce.aps.coffeemachine.impl;
 
-import static org.mockito.Mockito.verify;
 
-import org.mockito.internal.verification.AtLeast;
 
 import br.ufpb.dce.aps.coffeemachine.CoffeeMachine;
+import br.ufpb.dce.aps.coffeemachine.CoffeeMachineException;
+import br.ufpb.dce.aps.coffeemachine.Coin;
 import br.ufpb.dce.aps.coffeemachine.ComponentsFactory;
 
+public class MyCoffeeMachine implements CoffeeMachine {
 
+	private ComponentsFactory factory;
+	private int divisao, resto;
 
-public class MyCoffeeMachine implements CoffeeMachine{
-
-	
-	MyCoffeeMachine coffee;
-	
-		
-	public MyCoffeeMachine(ComponentsFactory factory){
-		
-		verify(coffee).display().info("Teste passando");
-		
+	public MyCoffeeMachine(ComponentsFactory factory) {
+		this.factory = factory;
+		this.factory.getDisplay().info("Insert coins and select a drink!");
+		this.divisao = 0;
+		this.resto = 0;
 	}
-	
-	
-	
-	private CoffeeMachine createFacade(ComponentsFactory factory){
-		
-		
-		
-		
-		return null;
-				
+
+	public void insertCoin(Coin dime) {
+		if (dime == null) {
+			throw new CoffeeMachineException("Coin null");
+		}
+		this.divisao += dime.getValue() / 100;
+		this.resto += dime.getValue() % 100;
+		this.factory.getDisplay().info(
+				"Total: US$ " + this.divisao + "." + this.resto);
 	}
-	
-		
-	
+
+	public void cancel() {
+		if (this.divisao == 0) {
+			throw new CoffeeMachineException("Não tem moedas inseridas");
+		}
+	}
 
 }
