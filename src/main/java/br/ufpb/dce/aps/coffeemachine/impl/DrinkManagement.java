@@ -9,6 +9,8 @@ public class DrinkManagement {
 	private ComponentsFactory factory;
 	private Bebidas drinks;
 	private double valor = 35;
+	private CoinManagement gerenciadorMoedas;
+	private Drink drink;
 
 	public DrinkManagement(ComponentsFactory factory) {
 		this.factory = factory;
@@ -73,6 +75,10 @@ public class DrinkManagement {
 	public double getValorDaBebida() {
 		return this.valor;
 	}
+	
+	/*public void prepararBebida(){
+		gerenciadorMoedas.prepararDrink(drink);
+	}*/
 
 }
 

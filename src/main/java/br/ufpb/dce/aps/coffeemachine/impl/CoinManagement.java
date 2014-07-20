@@ -38,10 +38,16 @@ public class CoinManagement {
 				"Total: US$ " + this.total / 100 + "." + this.total % 100);
 	}
 	
-	public void cancelar(Boolean confirm) {
+	public void cancelar(){
 		if (this.total == 0) {
 			throw new CoffeeMachineException("Não houve moeda inserida");
 		}
+		
+		this.cancelar(true);
+	}
+	
+	public void cancelar(Boolean confirm) {
+		
 		if (this.moedas.size() > 0) {
 			if (confirm) {
 				this.factory.getDisplay().warn(Messages.CANCEL);
@@ -81,8 +87,15 @@ public class CoinManagement {
 	}
 	
 	public void prepararDrink(Drink drink) {
+		
+		if(this.total < this.gerenciadorDeBebidas.getValorDaBebida() || this.total == 0){
+			this.factory.getDisplay().warn(Messages.NO_ENOUGHT_MONEY);
+			this.cancelar(false);
+			return;
+		}
 
 		this.gerenciadorDeBebidas.iniciarDrink(drink);
+		
 		if (!this.gerenciadorDeBebidas.conferirIngredientes()) {
 			this.cancelar(false);
 			return;

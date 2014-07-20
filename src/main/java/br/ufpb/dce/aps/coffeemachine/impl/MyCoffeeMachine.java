@@ -14,13 +14,12 @@ public class MyCoffeeMachine implements CoffeeMachine {
 	private ComponentsFactory factory;
 	private DrinkManagement gerenciadorDeBebidas;
 	private CoinManagement gerenciadorDeMoedas;
-	//private PreparadorBebida preparador;
+	
 
 	public MyCoffeeMachine(ComponentsFactory factory) {
 		this.factory = factory;
 		this.gerenciadorDeBebidas = new DrinkManagement(this.factory);
 		this.gerenciadorDeMoedas = new CoinManagement(this.factory);
-		//this.preparador = new PreparadorBebida(this.factory);
 		this.factory.getDisplay().info(Messages.INSERT_COINS);
 
 	}
@@ -32,7 +31,7 @@ public class MyCoffeeMachine implements CoffeeMachine {
 
 	public void cancel() throws CoffeeMachineException {
 
-		this.gerenciadorDeMoedas.cancelar(true);
+		this.gerenciadorDeMoedas.cancelar();
 
 	}
 
@@ -40,6 +39,8 @@ public class MyCoffeeMachine implements CoffeeMachine {
 
 		this.gerenciadorDeMoedas.prepararDrink(drink);
 	}
+	
+	
 
 }
 
