@@ -46,7 +46,7 @@ public class DrinkManagement {
 		return true;
 	}
 
-	public boolean verificaAcucar() {
+	public boolean verificarOpcaoAcucar() {
 		if (this.drinks.getDrink() == Drink.BLACK_SUGAR
 				|| this.drinks.getDrink() == Drink.WHITE_SUGAR) {
 			if (!this.factory.getSugarDispenser().contains(200)) {
@@ -57,7 +57,7 @@ public class DrinkManagement {
 		return true;
 	}
 
-	public void Mix() {
+	public void Misturar() {
 		this.factory.getDisplay().info(Messages.MIXING);
 		this.factory.getCoffeePowderDispenser().release(200);
 		this.factory.getWaterDispenser().release(3);
