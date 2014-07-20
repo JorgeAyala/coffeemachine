@@ -12,6 +12,7 @@ public class DrinkManagement {
 
 	public DrinkManagement(ComponentsFactory factory) {
 		this.factory = factory;
+
 	}
 
 	public void iniciarDrink(Drink drink) {
@@ -31,7 +32,7 @@ public class DrinkManagement {
 			return false;
 		} else if (!this.factory.getCoffeePowderDispenser().contains(200)) {
 			this.factory.getDisplay().warn(Messages.OUT_OF_COFFEE_POWDER);
-			return false;		
+			return false;
 
 		} else if (this.drinks.getDrink() == Drink.WHITE
 				|| this.drinks.getDrink() == Drink.WHITE_SUGAR) {
@@ -74,3 +75,4 @@ public class DrinkManagement {
 	}
 
 }
+
