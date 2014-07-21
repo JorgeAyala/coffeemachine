@@ -1,5 +1,7 @@
 package br.ufpb.dce.aps.coffeemachine;
 
+import org.junit.Test;
+
 import br.ufpb.dce.aps.coffeemachine.impl.MyCoffeeMachine;
 
 public class MyCoffeeMachineTest extends CoffeeMachineTest {
@@ -8,5 +10,6 @@ public class MyCoffeeMachineTest extends CoffeeMachineTest {
 	protected CoffeeMachine createFacade(ComponentsFactory factory) {
 		return new MyCoffeeMachine(factory);
 	}
-
+	
+	
 }
