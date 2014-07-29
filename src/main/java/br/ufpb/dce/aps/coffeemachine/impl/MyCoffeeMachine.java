@@ -61,9 +61,13 @@ public class MyCoffeeMachine implements CoffeeMachine {
 			}
 
 		}
+		
+		this.moedas.clear();
 
 		this.factory.getDisplay().info(Messages.INSERT_COINS_MESSAGE);
 
 	}
+	
+	
 
 }
