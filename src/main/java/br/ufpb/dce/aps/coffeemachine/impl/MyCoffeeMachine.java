@@ -20,7 +20,7 @@ public class MyCoffeeMachine implements CoffeeMachine {
 	ArrayList<Coin> moedas = new ArrayList<Coin>();
 	private Drink bebida;
 	private Dispenser dispensa;
-	
+
 	public MyCoffeeMachine(ComponentsFactory factory) {
 		this.factory = factory;
 		this.factory.getDisplay().info("Insert coins and select a drink!");
@@ -50,20 +50,19 @@ public class MyCoffeeMachine implements CoffeeMachine {
 
 		this.factory.getDisplay().warn(Messages.CANCEL);
 
-		for (Coin c: Coin.reverse()) {
-
+		for (Coin c : Coin.reverse()) {
 
 			for (int j = 0; j < moedas.size(); j++) {
-				
-				if(c== moedas.get(j)){
-				
+
+				if (c == moedas.get(j)) {
+
 					devolverCash.release(moedas.get(j));
-				
+
 				}
 			}
 
 		}
-		
+
 		this.moedas.clear();
 
 		this.factory.getDisplay().info(Messages.INSERT_COINS);
@@ -75,8 +74,10 @@ public class MyCoffeeMachine implements CoffeeMachine {
 		this.factory.getWaterDispenser().contains(anyDouble());
 		this.factory.getCoffeePowderDispenser().contains(anyDouble());
 		
-		
-		
+		for (int i = 0; i < this.moedas.size(); i++){
+			 devolverCash.release(this.moedas.get(i)); 
+		}
+
 		this.factory.getDisplay().info(Messages.MIXING);
 		this.factory.getCoffeePowderDispenser().release(anyDouble());
 		this.factory.getWaterDispenser().release(anyDouble());
@@ -85,58 +86,60 @@ public class MyCoffeeMachine implements CoffeeMachine {
 		this.factory.getCupDispenser().release(1);
 		this.factory.getDrinkDispenser().release(0.1);
 		this.factory.getDisplay().info(Messages.TAKE_DRINK);
-		
-		
-		
+
 		this.factory.getDisplay().info(Messages.INSERT_COINS);
 
 		moedas.clear();
-		
-		
+
 	}
 	
 	
 	
-	/*
-	public void select(Drink drink) {
-		factory.getCupDispenser().contains(1);
-		factory.getWaterDispenser().contains(anyDouble());
-		if(factory.getCoffeePowderDispenser().contains(anyDouble())){
-		factory.getDisplay().warn(Messages.OUT_OF_COFFEE_POWDER);
-
-		for (int i = 0; i < this.moedas.size(); i++){
-		cb.release(this.moedas.get(i));
-		}
-
-		factory.getDisplay().info(Messages.INSERT_COINS);
-		}
-
-		if (drink == Drink.BLACK_SUGAR){
-		factory.getSugarDispenser().contains(1.0);
-		}
-
-		if (drink == Drink.BLACK_SUGAR){
-		factory.getSugarDispenser().release(1.0);
-		}
-
-		factory.getDisplay().info(Messages.RELEASING);
-		factory.getCupDispenser().release(1);
-		factory.getDrinkDispenser().release(1.0);
-		factory.getDisplay().info(Messages.TAKE_DRINK);
-
-		factory.getWaterDispenser().release(1.0);
-		factory.getDisplay().info(Messages.MIXING);
-
-		factory.getCoffeePowderDispenser().release(1.0);
-
-
-
-		this.moedas.clear();
-
-		factory.getDisplay().info(Messages.INSERT_COINS);
-
-		}
 	
-	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	/*
+	 * public void select(Drink drink) { factory.getCupDispenser().contains(1);
+	 * factory.getWaterDispenser().contains(anyDouble());
+	 * if(factory.getCoffeePowderDispenser().contains(anyDouble())){
+	 * factory.getDisplay().warn(Messages.OUT_OF_COFFEE_POWDER);
+	 * 
+	 * for (int i = 0; i < this.moedas.size(); i++){
+	 * cb.release(this.moedas.get(i)); }
+	 * 
+	 * factory.getDisplay().info(Messages.INSERT_COINS); }
+	 * 
+	 * if (drink == Drink.BLACK_SUGAR){
+	 * factory.getSugarDispenser().contains(1.0); }
+	 * 
+	 * if (drink == Drink.BLACK_SUGAR){
+	 * factory.getSugarDispenser().release(1.0); }
+	 * 
+	 * factory.getDisplay().info(Messages.RELEASING);
+	 * factory.getCupDispenser().release(1);
+	 * factory.getDrinkDispenser().release(1.0);
+	 * factory.getDisplay().info(Messages.TAKE_DRINK);
+	 * 
+	 * factory.getWaterDispenser().release(1.0);
+	 * factory.getDisplay().info(Messages.MIXING);
+	 * 
+	 * factory.getCoffeePowderDispenser().release(1.0);
+	 * 
+	 * 
+	 * 
+	 * this.moedas.clear();
+	 * 
+	 * factory.getDisplay().info(Messages.INSERT_COINS);
+	 * 
+	 * }
+	 */
 
 }
