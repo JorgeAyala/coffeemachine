@@ -67,7 +67,7 @@ public class MyCoffeeMachine implements CoffeeMachine {
 
 	public void cancelWithoutIngredients() {
 
-		//int devolverMoedas = this.moedas.hashCode();
+		// int devolverMoedas = this.moedas.hashCode();
 
 		Coin[] contrario = Coin.reverse();
 
@@ -91,45 +91,50 @@ public class MyCoffeeMachine implements CoffeeMachine {
 
 	public void select(Drink drink) {
 		this.factory.getCupDispenser().contains(1);
-		this.factory.getWaterDispenser().contains(3);
-
-		if (!this.factory.getCoffeePowderDispenser().contains(200)) {
-
-			this.factory.getDisplay().warn("Out of Coffee Powder");
+		if (!this.factory.getWaterDispenser().contains(3)) {
+			this.factory.getDisplay().warn(Messages.OUT_OF_WATER);
 
 			this.cancelWithoutIngredients();
-
 		} else {
-			if (drink == Drink.BLACK_SUGAR
-					&& !this.factory.getSugarDispenser().contains(200)) {
 
-				this.factory.getDisplay().warn("Out of Sugar");
+			if (!this.factory.getCoffeePowderDispenser().contains(200)) {
+
+				this.factory.getDisplay().warn(Messages.OUT_OF_COFFEE_POWDER);
 
 				this.cancelWithoutIngredients();
 
 			} else {
+				if (drink == Drink.BLACK_SUGAR
+						&& !this.factory.getSugarDispenser().contains(200)) {
 
-				this.factory.getDisplay().info("Mixing ingredients.");
-				
-				this.factory.getCoffeePowderDispenser().release(200);
-				this.factory.getWaterDispenser().release(3);
+					this.factory.getDisplay().warn(Messages.OUT_OF_SUGAR);
 
-				if (drink == Drink.BLACK_SUGAR) {
+					this.cancelWithoutIngredients();
 
-					this.factory.getSugarDispenser().release(200);
+				} else {
 
+					this.factory.getDisplay().info(Messages.MIXING);
+
+					this.factory.getCoffeePowderDispenser().release(200);
+					this.factory.getWaterDispenser().release(3);
+
+					if (drink == Drink.BLACK_SUGAR) {
+
+						this.factory.getSugarDispenser().release(200);
+
+					}
+
+					this.factory.getDisplay().info(Messages.RELEASING);
+					this.factory.getCupDispenser().release(1);
+					this.factory.getDrinkDispenser().release(1);
+					this.factory.getDisplay().info(Messages.TAKE_DRINK);
+
+					this.factory.getDisplay().info(Messages.INSERT_COINS);
+
+					this.moedas.clear();
 				}
 
-				this.factory.getDisplay().info(Messages.RELEASING);
-				this.factory.getCupDispenser().release(1);
-				this.factory.getDrinkDispenser().release(1);
-				this.factory.getDisplay().info(Messages.TAKE_DRINK);
-
-				this.factory.getDisplay().info(Messages.INSERT_COINS);
-
-				this.moedas.clear();
 			}
-
 		}
 	}
 }

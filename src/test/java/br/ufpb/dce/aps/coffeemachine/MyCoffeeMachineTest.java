@@ -9,13 +9,7 @@ public class MyCoffeeMachineTest extends CoffeeMachineTest {
 	protected CoffeeMachine createFacade(ComponentsFactory factory) {
 		return new MyCoffeeMachine(factory);
 	}
-	
-	
+		
 }
-
-
-
-
-
 
 
