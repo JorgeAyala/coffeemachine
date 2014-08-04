@@ -90,14 +90,26 @@ public class MyCoffeeMachine implements CoffeeMachine {
 	}
 
 	public void select(Drink drink) {
-		this.factory.getCupDispenser().contains(1);
+		if(!this.factory.getCupDispenser().contains(1)){
+			this.factory.getDisplay().warn(Messages.OUT_OF_CUP);
+			this.cancelWithoutIngredients();
+		}
+		/*
 		if (!this.factory.getWaterDispenser().contains(3)) {
 			this.factory.getDisplay().warn(Messages.OUT_OF_WATER);
 
 			this.cancelWithoutIngredients();
-		} else {
+			}
+			*/
+		 else {
+			
+			 if (!this.factory.getWaterDispenser().contains(3)) {
+					this.factory.getDisplay().warn(Messages.OUT_OF_WATER);
 
-			if (!this.factory.getCoffeePowderDispenser().contains(200)) {
+					this.cancelWithoutIngredients();
+					}
+
+			 else if(!this.factory.getCoffeePowderDispenser().contains(200)) {
 
 				this.factory.getDisplay().warn(Messages.OUT_OF_COFFEE_POWDER);
 
