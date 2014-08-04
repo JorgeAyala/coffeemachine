@@ -1,5 +1,7 @@
 package br.ufpb.dce.aps.coffeemachine.impl;
 
+import org.objenesis.instantiator.basic.NewInstanceInstantiator;
+
 import br.ufpb.dce.aps.coffeemachine.CashBox;
 import br.ufpb.dce.aps.coffeemachine.CoffeeMachine;
 import br.ufpb.dce.aps.coffeemachine.CoffeeMachineException;
@@ -88,6 +90,8 @@ public class MyCoffeeMachine implements CoffeeMachine {
 		this.factory.getDisplay().info(Messages.INSERT_COINS);
 
 	}
+	
+	
 
 	public void select(Drink drink) {
 		
@@ -95,14 +99,7 @@ public class MyCoffeeMachine implements CoffeeMachine {
 			this.factory.getDisplay().warn(Messages.OUT_OF_CUP);
 			this.cancelWithoutIngredients();
 		}
-		/*
-		if (!this.factory.getWaterDispenser().contains(3)) {
-			this.factory.getDisplay().warn(Messages.OUT_OF_WATER);
-
-			this.cancelWithoutIngredients();
-			}
-			*/
-			
+					
 		 else {
 			
 		
@@ -163,5 +160,7 @@ public class MyCoffeeMachine implements CoffeeMachine {
 	}
 		 }
 	}
+	
+	
 }
 
