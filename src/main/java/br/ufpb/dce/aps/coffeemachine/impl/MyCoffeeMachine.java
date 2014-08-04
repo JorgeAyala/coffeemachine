@@ -19,7 +19,7 @@ public class MyCoffeeMachine implements CoffeeMachine {
 
 	public MyCoffeeMachine(ComponentsFactory factory) {
 		this.factory = factory;
-		this.factory.getDisplay().info("Insert coins and select a drink!");
+		this.factory.getDisplay().info(Messages.INSERT_COINS);
 		this.devolverCash = factory.getCashBox();
 		this.divisao = 0;
 		this.resto = 0;
@@ -90,6 +90,7 @@ public class MyCoffeeMachine implements CoffeeMachine {
 	}
 
 	public void select(Drink drink) {
+		
 		if(!this.factory.getCupDispenser().contains(1)){
 			this.factory.getDisplay().warn(Messages.OUT_OF_CUP);
 			this.cancelWithoutIngredients();
@@ -101,8 +102,10 @@ public class MyCoffeeMachine implements CoffeeMachine {
 			this.cancelWithoutIngredients();
 			}
 			*/
+			
 		 else {
 			
+		
 			 if (!this.factory.getWaterDispenser().contains(3)) {
 					this.factory.getDisplay().warn(Messages.OUT_OF_WATER);
 
@@ -124,7 +127,12 @@ public class MyCoffeeMachine implements CoffeeMachine {
 					this.cancelWithoutIngredients();
 
 				} else {
+			
+				if(drink == Drink.WHITE){
 
+				this.factory.getCreamerDispenser().contains(150);
+
+				}
 					this.factory.getDisplay().info(Messages.MIXING);
 
 					this.factory.getCoffeePowderDispenser().release(200);
@@ -133,6 +141,12 @@ public class MyCoffeeMachine implements CoffeeMachine {
 					if (drink == Drink.BLACK_SUGAR) {
 
 						this.factory.getSugarDispenser().release(200);
+
+					}
+					
+					if (drink == Drink.WHITE){
+
+						this.factory.getCreamerDispenser().release(150);
 
 					}
 
@@ -145,8 +159,9 @@ public class MyCoffeeMachine implements CoffeeMachine {
 
 					this.moedas.clear();
 				}
-
-			}
-		}
+		
+	}
+		 }
 	}
 }
+
