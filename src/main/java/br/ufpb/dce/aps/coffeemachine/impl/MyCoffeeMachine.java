@@ -64,11 +64,11 @@ public class MyCoffeeMachine implements CoffeeMachine {
 		this.factory.getDisplay().info(Messages.INSERT_COINS);
 
 	}
-	
+
 	public void cancelWithoutIngredients() {
 
 		//int devolverMoedas = this.moedas.hashCode();
-		
+
 		Coin[] contrario = Coin.reverse();
 
 		for (Coin re : contrario) {
@@ -100,36 +100,36 @@ public class MyCoffeeMachine implements CoffeeMachine {
 			this.cancelWithoutIngredients();
 
 		} else {
-//			this.factory.getCoffeePowderDispenser().contains(200);
+			if (drink == Drink.BLACK_SUGAR
+					&& !this.factory.getSugarDispenser().contains(200)) {
 
-			if (drink == Drink.BLACK_SUGAR) {
+				this.factory.getDisplay().warn("Out of Sugar");
 
-				this.factory.getSugarDispenser().contains(200);
+				this.cancelWithoutIngredients();
+
+			} else {
+
+				this.factory.getDisplay().info("Mixing ingredients.");
+				
+				this.factory.getCoffeePowderDispenser().release(200);
+				this.factory.getWaterDispenser().release(3);
+
+				if (drink == Drink.BLACK_SUGAR) {
+
+					this.factory.getSugarDispenser().release(200);
+
+				}
+
+				this.factory.getDisplay().info(Messages.RELEASING);
+				this.factory.getCupDispenser().release(1);
+				this.factory.getDrinkDispenser().release(1);
+				this.factory.getDisplay().info(Messages.TAKE_DRINK);
+
+				this.factory.getDisplay().info(Messages.INSERT_COINS);
+
+				this.moedas.clear();
 			}
 
-			this.factory.getDisplay().info("Mixing ingredients.");
-
-			this.factory.getCoffeePowderDispenser().release(200);
-			this.factory.getWaterDispenser().release(3);
-
-			if (drink == Drink.BLACK_SUGAR) {
-
-				this.factory.getSugarDispenser().release(200);
-
-			}
-
-			this.factory.getDisplay().info(Messages.RELEASING);
-			this.factory.getCupDispenser().release(1);
-			this.factory.getDrinkDispenser().release(1);
-			this.factory.getDisplay().info(Messages.TAKE_DRINK);
-
-			this.factory.getDisplay().info(Messages.INSERT_COINS);
-
-			this.moedas.clear();
 		}
-
 	}
-
-	
-
 }
