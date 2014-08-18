@@ -29,10 +29,10 @@ public class DrinkManagement {
 		if (!this.factory.getCupDispenser().contains(1)) {
 			this.factory.getDisplay().warn(Messages.OUT_OF_CUP);
 			return false;
-		} else if (!this.factory.getWaterDispenser().contains(3)) {
+		} else if (!this.factory.getWaterDispenser().contains(100)) {
 			this.factory.getDisplay().warn(Messages.OUT_OF_WATER);
 			return false;
-		} else if (!this.factory.getCoffeePowderDispenser().contains(200)) {
+		} else if (!this.factory.getCoffeePowderDispenser().contains(15)) {
 			this.factory.getDisplay().warn(Messages.OUT_OF_COFFEE_POWDER);
 			return false;
 
@@ -60,15 +60,15 @@ public class DrinkManagement {
 
 	public void misturar() {
 		this.factory.getDisplay().info(Messages.MIXING);
-		this.factory.getCoffeePowderDispenser().release(200);
-		this.factory.getWaterDispenser().release(3);
+		this.factory.getCoffeePowderDispenser().release(15);
+		this.factory.getWaterDispenser().release(100);
 	}
 
 	public void release() {
 		this.drinks.release();
 		this.factory.getDisplay().info(Messages.RELEASING);
 		this.factory.getCupDispenser().release(1);
-		this.factory.getDrinkDispenser().release(1);
+		this.factory.getDrinkDispenser().release(100.0);
 		this.factory.getDisplay().info(Messages.TAKE_DRINK);
 
 	}
