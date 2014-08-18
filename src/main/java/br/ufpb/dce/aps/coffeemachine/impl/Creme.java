@@ -17,7 +17,8 @@ public class Creme extends Bebidas {
 	}
 
 	public void release() {
-		this.factory.getCreamerDispenser().release(150);
+		factory.getWaterDispenser().release(80);
+		this.factory.getCreamerDispenser().release(20);
 		if (this.drink == drink.WHITE_SUGAR) {
 			this.factory.getSugarDispenser().release(200);
 		}

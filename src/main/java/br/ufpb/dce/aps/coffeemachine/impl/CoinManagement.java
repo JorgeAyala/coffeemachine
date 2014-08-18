@@ -163,7 +163,7 @@ public class CoinManagement {
 
 		this.gerenciadorDeBebidas.iniciarDrink(drink);
 
-		if (!this.gerenciadorDeBebidas.conferirIngredientes()) {
+		if (!this.gerenciadorDeBebidas.conferirIngredientes(drink)) {
 			this.liberarMoedas(false);
 			return;
 		}

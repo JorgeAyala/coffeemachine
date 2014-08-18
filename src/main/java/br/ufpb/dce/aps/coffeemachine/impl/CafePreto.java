@@ -17,6 +17,7 @@ public class CafePreto extends Bebidas {
 	}
 
 	public void release() {
+		factory.getWaterDispenser().release(100);
 		if (drink == drink.BLACK_SUGAR) {
 			this.factory.getSugarDispenser().release(5);
 		}
