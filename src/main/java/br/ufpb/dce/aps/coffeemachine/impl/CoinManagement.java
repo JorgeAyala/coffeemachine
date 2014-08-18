@@ -25,21 +25,17 @@ public class CoinManagement {
 
 	}
 
-	/*
-	 * public void receberMoedas(Coin coin){ //if (coin == null) { //throw new
-	 * CoffeeMachineException("Coin null"); }
-	 */
 	public void receberMoedas(Coin coin) throws CoffeeMachineException {
-		try{
-		
-		this.total += coin.getValue();
-		this.coin = coin;
-		moedas.add(coin);
-		this.indice++;
+		try {
 
-		this.factory.getDisplay().info(
-				"Total: US$ " + this.total / 100 + "." + this.total % 100);
-		}catch(NullPointerException e){
+			this.total += coin.getValue();
+			this.coin = coin;
+			moedas.add(coin);
+			this.indice++;
+
+			this.factory.getDisplay().info(
+					"Total: US$ " + this.total / 100 + "." + this.total % 100);
+		} catch (NullPointerException e) {
 			throw new CoffeeMachineException("Erro ao inserir moeda(s)");
 		}
 	}
@@ -49,29 +45,10 @@ public class CoinManagement {
 			throw new CoffeeMachineException("Moedas não inseridas.");
 		}
 
-		// this.cancelar(true);
 		this.liberarMoedas(true);
 	}
 
-	public void cancelar(Boolean confirm) {
-
-		if (this.moedas.size() > 0) {
-			if (confirm) {
-				this.factory.getDisplay().warn(Messages.CANCEL);
-			}
-			for (Coin re : this.reverso) {
-				for (Coin aux : this.moedas) {
-					if (aux == re) {
-						this.factory.getCashBox().release(aux);
-					}
-				}
-			}
-			this.total = 0;
-			this.limparCaixaDeMoedas();
-		}
-		this.factory.getDisplay().info(Messages.INSERT_COINS);
-	}
-
+	
 	public void liberarMoedas(boolean confirmacao) {
 		if (confirmacao) {
 			factory.getDisplay().warn(Messages.CANCEL);
@@ -84,36 +61,51 @@ public class CoinManagement {
 			}
 		}
 		this.total = 0;
-		this.zerarMoedas();
+		this.limparCaixaDeMoedas();
 		factory.getDisplay().info(Messages.INSERT_COINS);
 	}
 
-	public void liberarTrocoCaixa(double troco) {
-		this.reverso = Coin.reverse();
-		for (Coin c : this.reverso) {
-			while (c.getValue() <= troco) {
-				this.factory.getCashBox().release(c);
-				troco -= c.getValue();
-			}
+	public boolean PrepararCaixaParaTroco(double valorDaBebida) {
 
+//		this.reverso = Coin.reverse();
+//		for (Coin c : this.reverso) {
+//
+//			if (c.getValue() <= troco && this.factory.getCashBox().count(c) > 0) {
+//				troco -= c.getValue();
+//			}
+//		}
+//
+//		return (troco == 0);
+		double troco = this.total - valorDaBebida;
+		this.reverso = Coin.reverse();
+		for (Coin moeda : this.reverso) {
+			if (moeda.getValue() <= troco && factory.getCashBox().count(moeda) > 0) {
+				while (moeda.getValue() <= troco) {
+					troco = troco - moeda.getValue();
+					this.listaDeTroco.add(moeda);
+				}
+			}
 		}
+		return (troco == 0);
 	}
 
-	public boolean PrepararCaixaParaTroco(double troco) {
-		/* double trocoProvisorio = troco; */
+	public void liberarTrocoCaixa(double valorDaBebida) {
+//		this.reverso = Coin.reverse();
+//		for (Coin c : this.reverso) {
+//			while (c.getValue() <= troco) {
+//				this.factory.getCashBox().release(c);
+//				troco -= c.getValue();
+//			}
+//
+//		}
 		this.reverso = Coin.reverse();
-		for (Coin c : this.reverso) {
-			/*
-			 * while (c.getValue() <= trocoProvisorio) {
-			 * this.factory.getCashBox().count(c); trocoProvisorio -=
-			 * c.getValue(); }
-			 */
-			if (c.getValue() <= troco && this.factory.getCashBox().count(c) > 0) {
-				troco -= c.getValue();
+		for (Coin moeda : this.reverso) {
+			for (Coin moedaDeTroco : this.listaDeTroco) {
+				if (moedaDeTroco == moeda) {
+					factory.getCashBox().release(moeda);
+				}
 			}
 		}
-
-		return (troco == 0);
 	}
 
 	public boolean conferirDinheiroInserido(double valorDaBebida) {
@@ -136,9 +128,9 @@ public class CoinManagement {
 		return true;
 	}
 
-	public void zerarMoedas() {
-		this.moedas.clear();
-	}
+	// public void zerarMoedas() {
+	// this.moedas.clear();
+	// }
 
 	public int getTotal() {
 		return total;
@@ -156,7 +148,7 @@ public class CoinManagement {
 			}
 		}
 		this.total = 0;
-		this.zerarMoedas();
+		this.limparCaixaDeMoedas();
 		factory.getDisplay().info(Messages.INSERT_COINS);
 	}
 
@@ -165,37 +157,39 @@ public class CoinManagement {
 		if (this.total < this.gerenciadorDeBebidas.getValorDaBebida()
 				|| this.total == 0) {
 			this.factory.getDisplay().warn(Messages.NO_ENOUGHT_MONEY);
-			this.cancelar(false);
+			this.liberarMoedas(false);
 			return;
 		}
 
 		this.gerenciadorDeBebidas.iniciarDrink(drink);
 
 		if (!this.gerenciadorDeBebidas.conferirIngredientes()) {
-			this.cancelar(false);
+			this.liberarMoedas(false);
 			return;
 		}
 		if (!this.gerenciadorDeBebidas.verificarOpcaoAcucar()) {
-			this.cancelar(false);
+			this.liberarMoedas(false);
 			return;
 		}
-		if (this.getTotalDeMoedas()
-				% this.gerenciadorDeBebidas.getValorDaBebida() != 0
-				&& this.getTotalDeMoedas() > this.gerenciadorDeBebidas
-						.getValorDaBebida()) {
-			/*
-			 * this.PrepararCaixaParaTroco(this.getTotalDeMoedas() -
-			 * this.gerenciadorDeBebidas.getValorDaBebida());
-			 */
-			if (!this.PrepararCaixaParaTroco(this.total
-					- this.gerenciadorDeBebidas.getValorDaBebida())) {
-				this.factory.getDisplay().warn(Messages.NO_ENOUGHT_CHANGE);
-				this.cancelar(false);
-				return;
-			}
+//		if (this.getTotalDeMoedas()
+//				% this.gerenciadorDeBebidas.getValorDaBebida() != 0
+//				&& this.getTotalDeMoedas() > this.gerenciadorDeBebidas
+//						.getValorDaBebida()) {
+//
+//			if (!this.PrepararCaixaParaTroco(this.total
+//					- this.gerenciadorDeBebidas.getValorDaBebida())) {
+//				this.factory.getDisplay().warn(Messages.NO_ENOUGHT_CHANGE);
+//				this.liberarMoedas(false);
+//				return;
+//			}
+//		}
+		
+		if (!this.conferirDisponibiliadadeDeTroco(
+				this.gerenciadorDeBebidas.getValorDaBebida())) {
+			return;
 		}
 
-		this.gerenciadorDeBebidas.Misturar();
+		this.gerenciadorDeBebidas.misturar();
 		this.gerenciadorDeBebidas.release();
 
 		if (this.getTotalDeMoedas()

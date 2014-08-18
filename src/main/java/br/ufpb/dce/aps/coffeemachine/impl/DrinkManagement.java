@@ -57,7 +57,7 @@ public class DrinkManagement {
 		return true;
 	}
 
-	public void Misturar() {
+	public void misturar() {
 		this.factory.getDisplay().info(Messages.MIXING);
 		this.factory.getCoffeePowderDispenser().release(200);
 		this.factory.getWaterDispenser().release(3);
@@ -76,9 +76,6 @@ public class DrinkManagement {
 		return this.valor;
 	}
 	
-	/*public void prepararBebida(){
-		gerenciadorMoedas.prepararDrink(drink);
-	}*/
-
+	
 }
 
