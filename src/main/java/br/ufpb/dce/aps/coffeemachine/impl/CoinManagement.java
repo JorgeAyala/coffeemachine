@@ -128,10 +128,6 @@ public class CoinManagement {
 		return true;
 	}
 
-	// public void zerarMoedas() {
-	// this.moedas.clear();
-	// }
-
 	public int getTotal() {
 		return total;
 	}
@@ -154,6 +150,9 @@ public class CoinManagement {
 
 	public void prepararDrink(Drink drink) {
 
+
+		this.gerenciadorDeBebidas.iniciarDrink(drink);
+
 		if (this.total < this.gerenciadorDeBebidas.getValorDaBebida()
 				|| this.total == 0) {
 			this.factory.getDisplay().warn(Messages.NO_ENOUGHT_MONEY);
@@ -161,9 +160,7 @@ public class CoinManagement {
 			return;
 		}
 
-		this.gerenciadorDeBebidas.iniciarDrink(drink);
-
-		if (!this.gerenciadorDeBebidas.conferirIngredientes(drink)) {
+		if (!this.gerenciadorDeBebidas.analisarIngredientes(drink)) {
 			this.liberarMoedas(false);
 			return;
 		}
@@ -171,18 +168,6 @@ public class CoinManagement {
 			this.liberarMoedas(false);
 			return;
 		}
-//		if (this.getTotalDeMoedas()
-//				% this.gerenciadorDeBebidas.getValorDaBebida() != 0
-//				&& this.getTotalDeMoedas() > this.gerenciadorDeBebidas
-//						.getValorDaBebida()) {
-//
-//			if (!this.PrepararCaixaParaTroco(this.total
-//					- this.gerenciadorDeBebidas.getValorDaBebida())) {
-//				this.factory.getDisplay().warn(Messages.NO_ENOUGHT_CHANGE);
-//				this.liberarMoedas(false);
-//				return;
-//			}
-//		}
 		
 		if (!this.conferirDisponibiliadadeDeTroco(
 				this.gerenciadorDeBebidas.getValorDaBebida())) {
