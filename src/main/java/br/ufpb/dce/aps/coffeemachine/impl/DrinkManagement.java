@@ -69,6 +69,7 @@ public class DrinkManagement {
 		}
 		if (caldo > 0) {
 			if (!this.factory.getBouillonDispenser().contains(caldo)) {
+				this.factory.getDisplay().warn(Messages.OUT_OF_BOUILLON_POWDER);
 				return false;
 			}
 		}
