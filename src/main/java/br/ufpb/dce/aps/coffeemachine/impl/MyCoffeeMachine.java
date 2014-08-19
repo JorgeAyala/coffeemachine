@@ -14,15 +14,6 @@ public class MyCoffeeMachine implements CoffeeMachine {
 	private ComponentsFactory factory;
 	private DrinkManagement gerenciadorDeBebidas;
 	private CoinManagement gerenciadorDeMoedas;
-	
-
-	public MyCoffeeMachine(ComponentsFactory factory) {
-		this.factory = factory;
-		this.gerenciadorDeBebidas = new DrinkManagement(this.factory);
-		this.gerenciadorDeMoedas = new CoinManagement(this.factory);
-		this.factory.getDisplay().info(Messages.INSERT_COINS);
-
-	}
 
 	public void insertCoin(Coin coin) {
 		this.gerenciadorDeMoedas.receberMoedas(coin);
@@ -39,8 +30,13 @@ public class MyCoffeeMachine implements CoffeeMachine {
 
 		this.gerenciadorDeMoedas.prepararDrink(drink);
 	}
-	
-	
+
+	public void setFactory(ComponentsFactory factory) {
+		this.factory = factory;
+		this.gerenciadorDeBebidas = new DrinkManagement(this.factory);
+		this.gerenciadorDeMoedas = new CoinManagement(this.factory);
+		this.factory.getDisplay().info(Messages.INSERT_COINS);
+
+	}
 
 }
-
