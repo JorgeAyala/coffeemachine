@@ -79,8 +79,11 @@ public class CoinManagement {
 		double troco = this.total - valorDaBebida;
 		this.reverso = Coin.reverse();
 		for (Coin moeda : this.reverso) {
-			if (moeda.getValue() <= troco && factory.getCashBox().count(moeda) > 0) {
-				while (moeda.getValue() <= troco) {
+//			if (moeda.getValue() <= troco && factory.getCashBox().count(moeda) > 0) {
+//				while (moeda.getValue() <= troco) {
+			if (moeda.getValue() <= troco) {
+				int count = factory.getCashBox().count(moeda);
+				while (moeda.getValue() <= troco && count > 0) {
 					troco = troco - moeda.getValue();
 					this.listaDeTroco.add(moeda);
 				}
@@ -118,19 +121,16 @@ public class CoinManagement {
 	}
 
 	public boolean conferirDisponibiliadadeDeTroco(double valorDaBebida) {
-		if (this.total % valorDaBebida != 0 && this.total > valorDaBebida) {
+		
 			if (!this.PrepararCaixaParaTroco(valorDaBebida)) {
 				factory.getDisplay().warn(Messages.NO_ENOUGHT_CHANGE);
 				this.liberarMoedas(false);
 				return false;
 			}
-		}
+		
 		return true;
 	}
 
-	public int getTotal() {
-		return total;
-	}
 
 	public void liberarMoedas(Boolean confirmacao) {
 		if (confirmacao) {
@@ -176,17 +176,15 @@ public class CoinManagement {
 
 		this.gerenciadorDeBebidas.misturar();
 		this.gerenciadorDeBebidas.release();
-
-		if (this.getTotalDeMoedas()
-				% this.gerenciadorDeBebidas.getValorDaBebida() != 0
-				&& this.getTotalDeMoedas() > this.gerenciadorDeBebidas
-						.getValorDaBebida()) {
-			this.liberarTrocoCaixa(this.getTotalDeMoedas()
-					- this.gerenciadorDeBebidas.getValorDaBebida());
-		}
+		
+		if (this.getTotalDeMoedas() >= this.gerenciadorDeBebidas.getValorDaBebida()) {
+			this.liberarTrocoCaixa(this.gerenciadorDeBebidas.getValorDaBebida());
+	}
 		this.factory.getDisplay().info(Messages.INSERT_COINS);
 		this.limparCaixaDeMoedas();
 	}
+	
+	
 
 	public int getTotalDeMoedas() {
 
@@ -195,6 +193,7 @@ public class CoinManagement {
 
 	public void limparCaixaDeMoedas() {
 		this.moedas = new ArrayList<Coin>();
+		this.total = 0;
 
 	}
 
