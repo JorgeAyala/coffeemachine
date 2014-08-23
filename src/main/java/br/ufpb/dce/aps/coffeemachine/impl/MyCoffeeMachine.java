@@ -6,6 +6,8 @@ import br.ufpb.dce.aps.coffeemachine.Coin;
 import br.ufpb.dce.aps.coffeemachine.ComponentsFactory;
 import br.ufpb.dce.aps.coffeemachine.Drink;
 import br.ufpb.dce.aps.coffeemachine.Messages;
+import br.ufpb.dce.aps.coffeemachine.impl.gerentes.bebida.DrinkManagement;
+import br.ufpb.dce.aps.coffeemachine.impl.gerentes.moeda.CoinManagement;
 
 import java.util.ArrayList;
 
@@ -15,8 +17,17 @@ public class MyCoffeeMachine implements CoffeeMachine {
 	private DrinkManagement gerenciadorDeBebidas;
 	private CoinManagement gerenciadorDeMoedas;
 
+	public void setFactory(ComponentsFactory factory) {
+		this.factory = factory;
+		this.gerenciadorDeBebidas = new DrinkManagement(this.factory);
+		this.gerenciadorDeMoedas = new CoinManagement(this.factory);
+		this.gerenciadorDeMoedas.iniciarComMoedas();
+
+	}
+
 	public void insertCoin(Coin coin) {
-		this.gerenciadorDeMoedas.receberMoedas(coin);
+		this.gerenciadorDeMoedas.receberMoedas(coin,
+				this.gerenciadorDeMoedas.pegarTipoDePagamento());
 
 	}
 
@@ -31,20 +42,9 @@ public class MyCoffeeMachine implements CoffeeMachine {
 		this.gerenciadorDeMoedas.prepararDrink(drink);
 	}
 
-	public void setFactory(ComponentsFactory factory) {
-		this.factory = factory;
-		this.gerenciadorDeBebidas = new DrinkManagement(this.factory);
-		this.gerenciadorDeMoedas = new CoinManagement(this.factory);
-		this.factory.getDisplay().info(Messages.INSERT_COINS);
-
-	}
-
 	public void readBadge(int badgeCode) {
-		this.factory.getDisplay().info(Messages.BADGE_READ);
-		this.gerenciadorDeMoedas.tipoDePagamento("badge");
-		
-	}
-	
+		this.gerenciadorDeMoedas.iniciarComCracha(badgeCode);
 
+	}
 
 }
