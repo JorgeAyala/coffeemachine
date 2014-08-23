@@ -13,8 +13,8 @@ public class DrinkManagement {
 
 	private ComponentsFactory factory;
 	private Bebidas drinks;
-	private double valor = 35;
-	private double valorDoCaldo = 25;
+	private int valor = 35;
+	private int valorDoCaldo = 25;
 	private CoinManagement gerenciadorMoedas;
 	private Drink drink;
 
@@ -113,7 +113,7 @@ public class DrinkManagement {
 
 	}
 
-	public double getValorDaBebida() {
+	public int getValorDaBebida() {
 		return this.valor;
 	}
 
