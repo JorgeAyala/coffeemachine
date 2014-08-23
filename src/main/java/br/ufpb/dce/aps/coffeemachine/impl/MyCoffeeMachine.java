@@ -41,6 +41,7 @@ public class MyCoffeeMachine implements CoffeeMachine {
 
 	public void readBadge(int badgeCode) {
 		this.factory.getDisplay().info(Messages.BADGE_READ);
+		this.gerenciadorDeMoedas.tipoDePagamento("badge");
 		
 	}
 	
