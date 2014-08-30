@@ -5,8 +5,7 @@ import br.ufpb.dce.aps.coffeemachine.ComponentsFactory;
 
 public class CafePreto extends Bebidas {
 
-	public CafePreto(Button botao, ComponentsFactory factory) {
-		this.factory = factory;
+	public CafePreto(Button botao) {
 		if (botao == Button.BUTTON_1) {
 			this.botao = Button.BUTTON_1;
 
@@ -16,10 +15,10 @@ public class CafePreto extends Bebidas {
 
 	}
 
-	public void release() {
+	public void release(ComponentsFactory factory) {
 		factory.getWaterDispenser().release(100);
 		if (botao == Button.BUTTON_3) {
-			this.factory.getSugarDispenser().release(5);
+			factory.getSugarDispenser().release(5);
 		}
 		
 	}

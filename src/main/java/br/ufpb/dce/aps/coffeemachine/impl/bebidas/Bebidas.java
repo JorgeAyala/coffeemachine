@@ -7,12 +7,12 @@ public abstract class Bebidas {
 
 	
 	protected Button botao;
-	protected ComponentsFactory factory;
 
-	public abstract void release(); 
+	public abstract void release(ComponentsFactory factory); 
 	
 	public Button getDrink() {
 		return this.botao;
 
 	}
+		
 }

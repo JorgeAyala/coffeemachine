@@ -8,110 +8,92 @@ import br.ufpb.dce.aps.coffeemachine.impl.bebidas.CafeComCreme;
 import br.ufpb.dce.aps.coffeemachine.impl.bebidas.CafePreto;
 import br.ufpb.dce.aps.coffeemachine.impl.bebidas.CaldoDeCarne;
 import br.ufpb.dce.aps.coffeemachine.impl.gerentes.moeda.CoinManagement;
+import br.ufpb.dce.aps.coffeemachine.impl.gerentes.moeda.ReleaseCoinManagement;
 
 public class DrinkManagement {
 
-	private ComponentsFactory factory;
 	private Bebidas drinks;
 	private int valor = 35;
 	private int valorDoCaldo = 25;
-	private CoinManagement gerenciadorMoedas;
+	private ReleaseCoinManagement gerenteDeLiberarMoedas = new ReleaseCoinManagement();
 
-	public DrinkManagement(ComponentsFactory factory) {
-		this.factory = factory;
-
-	}
-
-	//Bebidas
-	public void iniciarDrink(Button botao) {
+	public void startDrink(ComponentsFactory factory, Button botao) {
 		if (botao == Button.BUTTON_1 || botao == Button.BUTTON_3) {
-			this.drinks = new CafePreto(botao, this.factory);
+			this.drinks = new CafePreto(botao);
 		} else if (botao == Button.BUTTON_2 || botao == Button.BUTTON_4) {
-			this.drinks = new CafeComCreme(botao, this.factory);
+			this.drinks = new CafeComCreme(botao);
 		} else {
-			this.drinks = new CaldoDeCarne(botao, this.factory);
+			this.drinks = new CaldoDeCarne(botao);
 			this.valor = this.valorDoCaldo;
 		}
 	}
-	
-	//Item Management
-	public boolean analisarIngredientes(Button botao) {
-		if (this.drinks.getDrink() == Button.BUTTON_1
-				|| this.drinks.getDrink() == Button.BUTTON_3) {
-			return (this.analisarIngredientes(botao, 1, 100, 15, 0, 0));
 
-		} else if (this.drinks.getDrink() == Button.BUTTON_2
-				|| this.drinks.getDrink() == Button.BUTTON_4) {
-			return (this.analisarIngredientes(botao, 1, 80, 15, 20, 0));
-		} else {
-			return (this.analisarIngredientes(botao, 1, 100, 0, 0, 10));
-		}
-	}
-	
-	//Item Management
-	public boolean analisarIngredientes(Button botao, int copo, int agua,
-			int po, int creme, int caldo) {
-		if (copo > 0) {
-			if (!this.factory.getCupDispenser().contains(copo)) {
-				this.factory.getDisplay().warn(Messages.OUT_OF_CUP);
-				return false;
-			}
-		}
-		if (!this.factory.getWaterDispenser().contains(agua)) {
-			this.factory.getDisplay().warn(Messages.OUT_OF_WATER);
-			return false;
-		}
-		if (po > 0) {
-			if (!this.factory.getCoffeePowderDispenser().contains(po)) {
-				this.factory.getDisplay().warn(Messages.OUT_OF_COFFEE_POWDER);
-				return false;
-			}
-		}
-		if (this.drinks.getDrink() == Button.BUTTON_2
-				|| this.drinks.getDrink() == Button.BUTTON_4) {
-			if (!this.factory.getCreamerDispenser().contains(creme)) {
-				this.factory.getDisplay().warn(Messages.OUT_OF_CREAMER);
-				return false;
-			}
-		}
-		if (caldo > 0) {
-			if (!this.factory.getBouillonDispenser().contains(caldo)) {
-				this.factory.getDisplay().warn(Messages.OUT_OF_BOUILLON_POWDER);
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public boolean verificarOpcaoAcucar() {
+	public boolean checkSugar(ComponentsFactory factory) {
 		if (this.drinks.getDrink() == Button.BUTTON_3
 				|| this.drinks.getDrink() == Button.BUTTON_4) {
-			if (!this.factory.getSugarDispenser().contains(5)) {
-				this.factory.getDisplay().warn(Messages.OUT_OF_SUGAR);
+			if (!factory.getSugarDispenser().contains(5)) {
+				factory.getDisplay().warn(Messages.OUT_OF_SUGAR);
 				return false;
 			}
 		}
 		return true;
 	}
 
-	public void misturar() {
-		this.factory.getDisplay().info(Messages.MIXING);
+	public void mixing(ComponentsFactory factory) {
+		factory.getDisplay().info(Messages.MIXING);
 		if (this.drinks.getDrink() == Button.BUTTON_5) {
-			this.factory.getBouillonDispenser().release(10);
+			factory.getBouillonDispenser().release(10);
 		} else {
-			this.factory.getCoffeePowderDispenser().release(15);
+			factory.getCoffeePowderDispenser().release(15);
 		}
 	}
 
-	public void release() {
-		this.drinks.release();
-		this.factory.getDisplay().info(Messages.RELEASING);
-		this.factory.getCupDispenser().release(1);
-		this.factory.getDrinkDispenser().release(100.0);
-		this.factory.getDisplay().info(Messages.TAKE_DRINK);
+	public void release(ComponentsFactory factory) {
+		this.drinks.release(factory);
+		factory.getDisplay().info(Messages.RELEASING);
+		factory.getCupDispenser().release(1);
+		factory.getDrinkDispenser().release(100.0);
+		factory.getDisplay().info(Messages.TAKE_DRINK);
 
 	}
 
+	
+	
+	public void prepararDrink(ComponentsFactory factory, CoinManagement gerenciadorDeMoedas, AskManagement gerenteDePedidos, ItemManagement gerenteDeItems, Button botao) {
+
+		this.startDrink(factory, botao);
+
+		if (!gerenciadorDeMoedas.conferirDinheiroInserido(factory,
+				this.getValorDaBebida())) {
+			return;
+		}
+
+		if (!gerenteDeItems.analisarIngredientes(factory, botao)) {
+			gerenciadorDeMoedas.liberarMoedas(factory, false);
+			return;
+		}
+		if (!this.checkSugar(factory)) {
+			gerenciadorDeMoedas.liberarMoedas(factory, false);
+			return;
+		}
+
+		if (!gerenciadorDeMoedas.conferirDisponibiliadadeDeTroco(factory,
+				this.getValorDaBebida())) {
+			return;
+		}
+
+		this.mixing(factory);
+		this.release(factory);
+
+		if (gerenciadorDeMoedas.getTotalDeMoedas() >= this
+				.getValorDaBebida()) {
+			this.gerenteDeLiberarMoedas.liberarTrocoCaixa(factory,
+					this.getValorDaBebida());
+		}
+		gerenteDePedidos.restart(factory);
+		gerenciadorDeMoedas.limparCaixaDeMoedas();
+	}
+	
 	public int getValorDaBebida() {
 		return this.valor;
 	}

@@ -6,12 +6,11 @@ import br.ufpb.dce.aps.coffeemachine.Messages;
 
 public class CaldoDeCarne extends Bebidas{
 	
-	public CaldoDeCarne (Button botao, ComponentsFactory factory) {
-		this.factory = factory;
+	public CaldoDeCarne (Button botao) {
 		this.botao = Button.BUTTON_5;
 	}
 	
-	public void release() {
+	public void release(ComponentsFactory factory) {
 		factory.getWaterDispenser().release(100);
 //		factory.getDisplay().info(Messages.RELEASING);
 //		factory.getCupDispenser().release(1);
