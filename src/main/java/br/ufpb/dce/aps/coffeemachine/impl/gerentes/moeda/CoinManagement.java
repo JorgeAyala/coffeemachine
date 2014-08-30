@@ -112,7 +112,7 @@ public class CoinManagement {
 
 	public boolean conferirDinheiroInserido(double valorDaBebida) {
 		if (this.total < valorDaBebida || this.total == 0) {
-			factory.getDisplay().warn(Messages.NO_ENOUGHT_MONEY);
+			this.factory.getDisplay().warn(Messages.NO_ENOUGHT_MONEY);
 			this.liberarMoedas(false);
 			return false;
 		}
@@ -173,7 +173,7 @@ public class CoinManagement {
 		
 		this.gerenciadorDeBebidas.iniciarDrink(drink);
 		
-		if (this.gerenciadorDeBebidas.analisarIngredientes(drink)) {
+		if (!this.gerenciadorDeBebidas.analisarIngredientes(drink)) {
 			return;
 		}
 			
@@ -196,10 +196,7 @@ public class CoinManagement {
 
 		this.gerenciadorDeBebidas.iniciarDrink(drink);
 
-		if (this.total < this.gerenciadorDeBebidas.getValorDaBebida()
-				|| this.total == 0) {
-			this.factory.getDisplay().warn(Messages.NO_ENOUGHT_MONEY);
-			this.liberarMoedas(false);
+		if(!this.conferirDinheiroInserido(this.gerenciadorDeBebidas.getValorDaBebida())){
 			return;
 		}
 

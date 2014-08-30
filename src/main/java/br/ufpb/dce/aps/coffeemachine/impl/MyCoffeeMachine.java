@@ -31,7 +31,7 @@ public class MyCoffeeMachine implements CoffeeMachine {
 
 	}
 
-	public void cancel() throws CoffeeMachineException {
+	public void cancel(){
 
 		this.gerenciadorDeMoedas.cancelar();
 
@@ -39,7 +39,7 @@ public class MyCoffeeMachine implements CoffeeMachine {
 
 	public void select(Drink drink) {
 
-		this.gerenciadorDeMoedas.prepararDrink(drink);
+		this.gerenciadorDeMoedas.iniciarPedidoDeBebida(drink);
 	}
 
 	public void readBadge(int badgeCode) {
