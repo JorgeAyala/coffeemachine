@@ -1,17 +1,18 @@
 package br.ufpb.dce.aps.coffeemachine.impl.bebidas;
 
+import br.ufpb.dce.aps.coffeemachine.Button;
 import br.ufpb.dce.aps.coffeemachine.ComponentsFactory;
-import br.ufpb.dce.aps.coffeemachine.Drink;
 
 public abstract class Bebidas {
 
-	protected Drink drink;
+	
+	protected Button botao;
 	protected ComponentsFactory factory;
 
 	public abstract void release(); 
 	
-	public Drink getDrink() {
-		return this.drink;
+	public Button getDrink() {
+		return this.botao;
 
 	}
 }

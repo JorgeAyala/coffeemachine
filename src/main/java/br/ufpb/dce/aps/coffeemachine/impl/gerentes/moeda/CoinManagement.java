@@ -2,10 +2,10 @@ package br.ufpb.dce.aps.coffeemachine.impl.gerentes.moeda;
 
 import java.util.ArrayList;
 
+import br.ufpb.dce.aps.coffeemachine.Button;
 import br.ufpb.dce.aps.coffeemachine.CoffeeMachineException;
 import br.ufpb.dce.aps.coffeemachine.Coin;
 import br.ufpb.dce.aps.coffeemachine.ComponentsFactory;
-import br.ufpb.dce.aps.coffeemachine.Drink;
 import br.ufpb.dce.aps.coffeemachine.Messages;
 import br.ufpb.dce.aps.coffeemachine.impl.gerentes.bebida.DrinkManagement;
 
@@ -137,6 +137,7 @@ public class CoinManagement {
 	}
 
 	public void iniciarComMoedas() {
+		this.factory.getButtonDisplay().show("Black: $0.35", "White: $0.35", "Black with sugar: $0.35", "White with sugar: $0.35", "Bouillon: $0.25", null, null);
 		this.factory.getDisplay().info(Messages.INSERT_COINS);
 		CoinManagement.setarTipoDePagamento("moedas");
 	}
@@ -160,20 +161,20 @@ public class CoinManagement {
 		return CoinManagement.tipoPagamento;
 	}
 
-	public void iniciarPedidoDeBebida(Drink drink) {
+	public void iniciarPedidoDeBebida(Button botao) {
 		if (CoinManagement.tipoPagamento.equals("badge")) {
-			this.iniciarPedidoComCracha(drink);
+			this.iniciarPedidoComCracha(botao);
 		} else {
-			this.prepararDrink(drink);
+			this.prepararDrink(botao);
 		}
 
 	}
 
-	public void iniciarPedidoComCracha(Drink drink) {
+	public void iniciarPedidoComCracha(Button botao) {
 		
-		this.gerenciadorDeBebidas.iniciarDrink(drink);
+		this.gerenciadorDeBebidas.iniciarDrink(botao);
 		
-		if (!this.gerenciadorDeBebidas.analisarIngredientes(drink)) {
+		if (!this.gerenciadorDeBebidas.analisarIngredientes(botao)) {
 			return;
 		}
 			
@@ -204,15 +205,15 @@ public class CoinManagement {
 	}
 
 	// Item Management
-	public void prepararDrink(Drink drink) {
+	public void prepararDrink(Button botao) {
 
-		this.gerenciadorDeBebidas.iniciarDrink(drink);
+		this.gerenciadorDeBebidas.iniciarDrink(botao);
 
 		if(!this.conferirDinheiroInserido(this.gerenciadorDeBebidas.getValorDaBebida())){
 			return;
 		}
 
-		if (!this.gerenciadorDeBebidas.analisarIngredientes(drink)) {
+		if (!this.gerenciadorDeBebidas.analisarIngredientes(botao)) {
 			this.liberarMoedas(false);
 			return;
 		}
