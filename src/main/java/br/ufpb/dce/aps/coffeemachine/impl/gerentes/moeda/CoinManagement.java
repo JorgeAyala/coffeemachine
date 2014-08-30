@@ -181,14 +181,26 @@ public class CoinManagement {
 			return;
 		}
 		
-		this.factory.getPayrollSystem().debit(
-				gerenciadorDeBebidas.getValorDaBebida(), this.badge);
+		//this.factory.getPayrollSystem().debit(
+				//gerenciadorDeBebidas.getValorDaBebida(), this.badge);
+		if (!this.factory.getPayrollSystem().debit(
+				gerenciadorDeBebidas.getValorDaBebida(), this.badge)){
+			factory.getDisplay().warn(Messages.UNKNOWN_BADGE_CODE);
+			this.reiniciar();
+			return;
+		}
 
 		this.gerenciadorDeBebidas.misturar();
 		this.gerenciadorDeBebidas.release();
 
-		this.factory.getDisplay().info(Messages.INSERT_COINS);
+		//this.factory.getDisplay().info(Messages.INSERT_COINS);
+		//CoinManagement.setarTipoDePagamento(" ");
+		this.reiniciar();
+	}
+	public void reiniciar(){
+		factory.getDisplay().info(Messages.INSERT_COINS);
 		CoinManagement.setarTipoDePagamento(" ");
+		
 	}
 
 	// Item Management
@@ -221,8 +233,7 @@ public class CoinManagement {
 				.getValorDaBebida()) {
 			this.liberarTrocoCaixa(this.gerenciadorDeBebidas.getValorDaBebida());
 		}
-		this.factory.getDisplay().info(Messages.INSERT_COINS);
-		CoinManagement.setarTipoDePagamento(" ");
+		this.reiniciar();
 		this.limparCaixaDeMoedas();
 	}
 
